@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  web:
+    image: webdevops/php-apache:alpine-php7
+    container_name: app_web
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/app
+    networks:
+      - minha-rede
+
+  db:
+    image: mysql:5.7
+    container_name: app_db
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+      MYSQL_DATABASE: "testedb"
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./data/mysql:/var/lib/mysql
+    networks:
+      - minha-rede
+
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: app_phpmyadmin
+    environment:
+      MYSQL_ROOT_PASSWORD: "Senha123"
+    ports:
+      - "8080:80"
+    networks:
+      - minha-rede
+
+networks:
+  minha-rede:
+    driver: bridge
+
+
+
+
+
